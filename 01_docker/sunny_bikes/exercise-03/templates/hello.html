@@ -1,0 +1,16 @@
+<html>
+    <body>
+        {% if name %}
+            <h2>Hello {{ name }}!</h2>
+            <p>You bike rides are:</p>
+            <ul>
+                <li>San Francisco - 5 km - 2018/01/01</li>
+                <li>New York - 15 km - 2018/02/01</li>
+                <li>New York - 8 km - 2018/03/01</li>
+                <li>Austin - 18 km - 2018/04/02</li>
+            </ul>
+        {% else %}
+            <h2>No name supplied. Could not find any bike rides for this user.</h2>
+        {% endif %}
+    </body>
+</html>

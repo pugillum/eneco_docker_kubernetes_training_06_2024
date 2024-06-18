@@ -1,0 +1,20 @@
+# replace the bits in [] with the correct values
+# run with docker compose up --build
+version: "3.8" # schema version
+services:
+  postgres:
+    image: [insert image name]
+    environment:
+      POSTGRES_PASSWORD: [a password]
+    ports:
+      - [map port 5432 to 5432]
+    volumes:
+      - "./init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql"
+  flask:
+    build: .
+    ports:
+      - [map port 8080 on host to 5000 in container]
+    environment:
+      PG_PASSWORD: [a password]
+    depends_on:
+      - postgres

@@ -1,0 +1,19 @@
+FROM python:3.12-slim
+
+# add a group and user
+RUN groupadd -r myusers && useradd -r -g myusers myuser
+
+WORKDIR /app
+
+COPY . .
+
+# change the ownership of the /app directory to the myuser user
+RUN chown -R myuser:myusers /app
+
+# change the user to myuser
+USER myuser
+
+EXPOSE 5000
+
+ENTRYPOINT ["python"]
+CMD ["read_file.py"]

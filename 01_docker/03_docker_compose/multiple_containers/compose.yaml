@@ -1,0 +1,11 @@
+services:
+  redis:
+    image: "redis:alpine"
+  web:
+    build:
+      context: .
+    ports:
+      - 8000:5000
+    stop_signal: SIGINT
+    depends_on:
+      - redis
