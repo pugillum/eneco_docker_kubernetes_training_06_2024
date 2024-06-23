@@ -1,0 +1,18 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_PASSWORD: long-distance-ice-skating
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql"
+  app:
+    build: .
+    ports:
+      - "8000:5000"
+    environment:
+      PG_PASSWORD: long-distance-ice-skating
+    depends_on:
+      - postgres

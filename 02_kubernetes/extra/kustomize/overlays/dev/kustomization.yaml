@@ -1,0 +1,7 @@
+resources:
+  - ../../base # which base to use
+
+namespace: dev-env
+
+patchesStrategicMerge:
+  - replica_count.yaml

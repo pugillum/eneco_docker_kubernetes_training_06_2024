@@ -1,0 +1,8 @@
+resources:
+  - ../../base # which base to use
+
+namespace: prd-env
+
+patchesStrategicMerge:
+  - replica_count.yaml
+  - set_memory.yaml

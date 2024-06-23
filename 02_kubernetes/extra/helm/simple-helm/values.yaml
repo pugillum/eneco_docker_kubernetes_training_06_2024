@@ -1,0 +1,5 @@
+name: my-app-1
+container:
+  name: nginx
+  image: nginx:stable
+  port: 80
