@@ -1,0 +1,18 @@
+services:
+  streamlit-app:
+    build:
+      context: ./ui
+      dockerfile: ./Dockerfile
+    container_name: titanicui
+    ports:
+      - 8501:8501
+    working_dir: /usr/src/app
+
+  data-api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    container_name: titanicapi
+    ports:
+      - 8000:8000
+    working_dir: /usr/src/api
