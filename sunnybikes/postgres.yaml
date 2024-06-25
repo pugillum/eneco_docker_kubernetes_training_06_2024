@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgres
+  name: postgres
+  namespace: sunnybikes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - image: postgres:11-alpine
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sunnybikes-secret
+                  key: secret1
+          volumeMounts:
+            - name: sunnybikes-volume
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+      volumes:
+        - name: sunnybikes-volume
+          configMap:
+            name: sunnybike-configmap
+            items:
+              - key: init-schema.sql
+                path: init-schema.sql

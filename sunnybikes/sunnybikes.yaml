@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sunnybikes
+  namespace: sunnybikes
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 2
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sunnybikes
+      env: production
+  template:
+    metadata:
+      labels:
+        app: sunnybikes
+        env: production
+    spec:
+      containers:
+        - name: sunnybikes
+          image: pugillum/sunnybikeslite:stable
+          ports:
+            - containerPort: 80
+          env:
+            - name: PG_PORT
+              value: "5432"
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sunnybikes-secret
+                  key: secret1
