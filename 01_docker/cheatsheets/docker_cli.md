@@ -86,4 +86,7 @@ docker tag busybox:latest mybusybox:v1
 # pushing your image to Docker Hub
 docker build . -t <account_name>/<image_name>:tag --push
 docker build . -t my_docker_hub_account/busierbox:stable --push
+
+# building image for different chip architectures
+docker buildx build --platform linux/amd64,linux/arm64 . -t <account_name>/<image_name>:tag --push
 ```
