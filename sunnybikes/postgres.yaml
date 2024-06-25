@@ -1,4 +1,17 @@
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-postgres
+  namespace: sunnybikes
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard-rwo
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: postgres
@@ -43,6 +56,20 @@ spec:
             - name: sunnybikes-volume
               mountPath: /docker-entrypoint-initdb.d
               readOnly: true
+            - mountPath: /var/lib/postgresql/data
+              name: data
+              subPath: data
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - postgres
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
       volumes:
         - name: sunnybikes-volume
           configMap:
@@ -50,3 +77,6 @@ spec:
             items:
               - key: init-schema.sql
                 path: init-schema.sql
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-postgres

@@ -50,3 +50,7 @@ spec:
                   key: secret1
             - name: PG_HOST
               value: "postgres.sunnybikes.svc.cluster.local"
+          readinessProbe:
+            httpGet:
+              port: 5000
+              path: /healthz
