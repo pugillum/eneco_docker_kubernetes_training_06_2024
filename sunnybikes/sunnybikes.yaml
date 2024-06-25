@@ -1,3 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sunnybikes
+  namespace: sunnybikes
+spec:
+  type: LoadBalancer
+  selector:
+    app: sunnybikes
+    env: production
+  ports:
+    - port: 80
+      targetPort: 5000
+      protocol: TCP
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,7 +37,7 @@ spec:
     spec:
       containers:
         - name: sunnybikes
-          image: pugillum/sunnybikeslite:stable
+          image: pugillum/sunnybikes:stable
           ports:
             - containerPort: 80
           env:
@@ -32,3 +48,5 @@ spec:
                 secretKeyRef:
                   name: sunnybikes-secret
                   key: secret1
+            - name: PG_HOST
+              value: "postgres.sunnybikes.svc.cluster.local"
