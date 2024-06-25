@@ -82,4 +82,8 @@ docker history --no-trunc IMAGE
 # to tag an image
 docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
 docker tag busybox:latest mybusybox:v1
+
+# pushing your image to Docker Hub
+docker build . -t <account_name>/<image_name>:tag --push
+docker build . -t my_docker_hub_account/busierbox:stable --push
 ```
